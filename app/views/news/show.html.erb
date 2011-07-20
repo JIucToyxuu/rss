@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= @title %></title>
+  </head>
+  <body>
+<p>
+</p>
+<%  require 'simple-rss' %>
+<% require 'open-uri' %>
+
+<% @urlt = @news.link %>
+<% page = open(@urlt) %>
+<% @text = page.read %>
+<% @text.html_safe %>
+<% @infa = @text.scan(%r{<p>(.*)</p>}) %>
+
+<% @infa.each do |t| -%>
+<p style="width: 95%">
+<% res = t[0]%>
+<% res = res.gsub(/&amp;/,"&") %>
+<% res = res.gsub(/&lt;/,"<") %>
+<% res = res.gsub(/&gt;/,">") %>
+<% res = res.gsub(/&\w+?;/,"") %>
+<% res = res.gsub(/<.*?>/,"") %> 
+<% res = res.gsub(/\s+?/," ") %>
+<% t[0]=res %>
+<%= t[0].html_safe %>
+</p>
+<% end -%>
+<%= link_to "link", @urlt %>
+
+
+
+  </body>
+</html>

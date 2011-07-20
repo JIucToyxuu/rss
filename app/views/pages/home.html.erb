@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= @title %></title>
+  </head>
+  <body>
+<%  require 'simple-rss' %>
+<% require 'open-uri' %>
+<% novost = News.find(:all) -%>
+<% novost.each do |item| %>
+	<div class="wrapper2">
+<p style="text-align: center; padding: 5px 0 0 0">	<%= item.title %> </p>
+<p style = " padding: 5px 0 0 15px"> <%= item.description  %> </p>
+ <h1_2 ><a href="news/<%=item.id%>">  details </a></h1_2>   
+	</div> 
+ <p> </p>
+<% end -%>
+<% @url = "http://world-pulse.ru/archives/277" %>
+  </body>
+</html>
+
+
+		
+		
+						
+	
+

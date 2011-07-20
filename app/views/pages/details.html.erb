@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= @title %></title>
+  </head>
+  <body>
+<p>
+</p>
+<%  require 'simple-rss' %>
+<% require 'open-uri' %>
+
+<% @str_link = Settings.find_by_option_name("link1") %>
+<% link = @str_link.option_status %>
+<% feed_items = SimpleRSS.parse(open(link)).items %>
+<% newss = {} %>
+<% feed_items.each do |item| -%>
+<% @name = item.title %>
+<% if News.find_by_title(@name) == nil %>
+<% newss[@name] = News.new %>
+<% newss[@name][:title] = item.title %>
+<% newss[@name][:link] = item.link %>
+<% newss[@name][:description] = item.description %> 
+<% newss[@name].save %>
+<% else %>
+<% @tmp = '1' %>
+<% end %>
+<% end-%>
+
+<% @str_link = Settings.find_by_option_name("link2") %>
+<% link = @str_link.option_status %>
+<% feed_items = SimpleRSS.parse(open(link)).items %>
+<% newss = {} %>
+<% feed_items.each do |item| -%>
+<% @name = item.title %>
+<% if News.find_by_title(@name) == nil %>
+<% newss[@name] = News.new %>
+<% newss[@name][:title] = item.title %>
+<% newss[@name][:link] = item.link %>
+<% @new = item.description %> 
+<% res = @new.scan(%r{(.*)&lt;img}).join() %>
+<% res = res.gsub(/&amp;/,"&") %>
+<% res = res.gsub(/&lt;/,"<") %>
+<% res = res.gsub(/&gt;/,">") %>
+<% res = res.gsub(/&\w+?;/,"") %>
+<% res = res.gsub(/<.*?>/,"") %> 
+<% res = res.gsub(/\s+?/," ") %>
+<% newss[@name][:description] = res %>
+<% newss[@name].save %>
+<% else %>
+<% @tmp = '1' %>
+<% end %>
+<% end-%>
+<% @str_link = Settings.find_by_option_name("link3") %>
+<% link = @str_link.option_status %>
+<% feed_items = SimpleRSS.parse(open(link)).items %>
+<% newss = {} %>
+<% feed_items.each do |item| -%>
+<% @name = item.title %>
+<% if News.find_by_title(@name) == nil %>
+<% newss[@name] = News.new %>
+<% newss[@name][:title] = item.title %>
+<% newss[@name][:link] = item.link %>
+<% newss[@name][:description] = item.description %> 
+<% newss[@name].save %>
+<% else %>
+<% @tmp = '1' %>
+<% end %>
+<% end-%>
+
+<% @str_link = Settings.find_by_option_name("link4") %>
+<% link = @str_link.option_status %>
+<% feed_items = SimpleRSS.parse(open(link)).items %>
+<% newss = {} %>
+<% feed_items.each do |item| -%>
+<% @name = item.title %>
+<% if News.find_by_title(@name) == nil %>
+<% newss[@name] = News.new %>
+<% newss[@name][:title] = item.title %>
+<% newss[@name][:link] = item.link %>
+<% @new = item.description %> 
+<% res = @new.scan(%r{(.*)&lt;div class="feedflare"&gt;}).join() %>
+<% res = res.gsub(/&amp;/,"&") %>
+<% res = res.gsub(/&lt;/,"<") %>
+<% res = res.gsub(/&gt;/,">") %>
+<% res = res.gsub(/&\w+?;/,"") %>
+<% res = res.gsub(/<.*?>/,"") %> 
+<% res = res.gsub(/\s+?/," ") %>
+<% newss[@name][:description] = res %>
+<% newss[@name].save %>
+<% else %>
+<% @tmp = '1' %>
+<% end %>
+<% end-%>
+
+
+<p style = "text-align:center;"> База обновлена!!! </p>
+  </body>
+</html>
